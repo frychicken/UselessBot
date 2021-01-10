@@ -3,6 +3,19 @@ const config = process.env.TOKEN;
 
 const learrrn = require("./learn.json");
 const fs = require('fs');
+const express = require("express");
+const app = express();
+
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + "/views/index.html");
+});
+app.use(express.static("public/"));
+
+// listen for requests :)
+const listener = app.listen(process.env.PORT, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+
 
 const client = new Discord.Client();
  var nanim = true;
@@ -23,7 +36,7 @@ client.on("message", function(message) {
  
     if (message.mentions.has(client.user.id)) {
       var haverespond = false;
-      if(!message.content.includes("*")&& (message.content.length >22)){
+      if(!message.content.includes("*")&& (message.content.length >23)){
      
     var lineReader = require('readline').createInterface({
        input: fs.createReadStream('learn.txt')
@@ -47,7 +60,7 @@ client.on("message", function(message) {
         
         
         
-      }else if (message.content.length == 22){
+      }else if (message.content.length <= 23){
           message.channel.send("Yo wassup, talk to me about anything!");
           message.channel.send("You can teach me stuff. Type in: <@mention me> *statement:respond");
       }      
