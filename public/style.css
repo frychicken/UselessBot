@@ -685,7 +685,7 @@ h1{
 }
 
 p{
-  font-size: 30px
+  font-size: 14px
 }
 
 .announcement {
@@ -695,14 +695,14 @@ p{
 
 .zoom {
 
- height: 210px;
-  width: 210px;
+ height: 100px;
+  width: 100px;
 
 
 }
 .zoom:hover {
-width: 230px;
-  height: 230px;
+width: 130px;
+  height: 130px;
 }
 
 .zoom2 {
@@ -734,10 +734,9 @@ h1 {
 */
 
 
-
 .button1 {
-   padding: 32px 64px;
-   font-size: 50px;
+   padding: 20px 15px;
+   font-size: 20px;
   
 }
 
@@ -745,11 +744,12 @@ h1 {
 
 .button2 {
    
-  padding: 32px 64px;
+  padding: 20px 15px;
 
-  font-size: 50px;
+  font-size: 20px;
   margin: 4px 2px;
 }
+
 
 
 
@@ -758,7 +758,7 @@ h1 {
   padding: 40px;
 }
 .collapsible {
-    font-size: 50px;
+    font-size: 10px;
     
 }
 
@@ -836,10 +836,12 @@ h1{
 }
 
 p{
-  font-size: 20px
+  font-size: 10px
 }
-
-
+  .zoom{
+     height: 10px;
+  width: 10px;
+  }
 .zoom2 {
 
  height: 175px;
@@ -857,7 +859,7 @@ p{
 
 .collapsible {
     padding: 10px;
-    font-size:15px;
+    font-size:10px;
 }
 
 }

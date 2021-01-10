@@ -136,7 +136,9 @@ client.on("message", function(message) {
   else if (command === "bob") {
     message.channel.send(`there is no reason to do this`);
   }
-  
+  else if (command === "website") {
+    message.channel.send(`website is available here https://uselessbotpickle.glitch.me/`);
+  }
   else if (command ==="off"){
     nanim = false;
     message.channel.send(`turned off ability to block gif`);
@@ -149,7 +151,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !bob, !contribute, @<mention me>`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>`);
   }
 
   else if (command === "contribute") {
