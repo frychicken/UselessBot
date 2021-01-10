@@ -103,148 +103,15 @@ $("#smooth a[href^='#']").on('click', function(e) {
 
   $('.button2').on('click', function() {
 
+           //window.open("https://uselessbotpickle.glitch.me/#faq");
 
-    $('#cr').css({
-      background: 'black'
-    });
-
-    changeNavToWhite();
-    changeTopBlack();
-changeAnnouncementBlack();
-
-    $('.button1').css({
-      color: 'white'
-    });    $('.button2').css({
-      color: 'white'
-    });
-
-    $('.collapsible').css({
-      color: 'black'
-    });
-    $('.collapsible').css({
-      background: 'white'
-    });
-
-    $('hr').css({
-      color: 'black'
-    });
-
-    $('#linee').css({
-      color: 'white'
-    });
-    $('#lineee').css({
-      color: 'white'
-    });               $('#lineeee').css({
-      color: 'white'
-    });
-
-    $('.swiper-button-next').css({
-      color: 'black'
-    });
-    $('.swiper-button-prev').css({
-      color : 'black'
-    });
-    /*
-      $('body').css({
-          background: 'black'
-      });
-      */
-
-      $('#buy').css({
-        background: 'white'
-      });
-      $('subtitlee').css({
-        color: 'black'
-      });
-      
-      $('#opening').css({
-        background: 'black'
-      });
-      $('#faq').css({
-        background: 'black'
-      });
-      $('#contact').css({
-        background: 'white'
-      });
-      $('titlee').css({
-        color: 'white'
-      });
+ 
     });
 
   $('.button1').on('click', function() {
+              window.open("https://github.com/frychicken/DummyDiscordBot");
 
 
-
-    $('#cr').css({
-      background: 'white'
-    });
-
-    changeNavToBlack();
-    changeTopWhite();
-
- changeAnnouncementWhite();
-
-    $('hr').css({
-      color: 'white'
-    });
-
-
-
-    $('.swiper-button-next').css({
-      color : 'white'
-    });
-
-    $('.swiper-button-prev').css({
-      color : 'white'
-    });
-
-
-    $('#linee').css({
-      color: 'black'
-    });
-    $('#lineee').css({
-      color: 'black'
-    });               $('#lineeee').css({
-      color: 'black'
-    });
-    $('.collapsible').css({
-      color: 'white'
-    });
-    $('.collapsible').css({
-      background: 'black'
-    });
-
-    $('.button1').css({
-      color: 'black'
-    });    $('.button2').css({
-      color: 'black'
-    });
-     /*
-      $('body').css({
-          background: 'white'
-      });
-      */
-      $('#opening').css({
-        background: 'white'
-      });
-      $('#contact').css({
-        background: 'black'
-      });
-      $('#buy').css({
-        background: 'black'
-      });
-      $('#faq').css({
-        background: 'white'
-      });
-      
-
-      
-      $('subtitlee').css({
-        color: 'white'
-      });
-      $('titlee').css({
-        color: 'black'
-      });
     });
 
    
@@ -277,98 +144,10 @@ changeAnnouncementBlack();
   }
 
 
-  function changeNavToBlack(){
-    document.getElementById('navRight').src='image/aaa.png';
-    $('head').append('<style>#navbar a:after{ background:#fff !important;}</style>');
-
-    $('#sticky').css({
-      color: 'white'
-    });
-
-    $('#navbar a').css({
-      color: 'white'
-    });
-
-    $('#navbar').css({
-      background: 'black'
-    });
-
-  }
-
-
-  function changeNavToWhite(){
-   document.getElementById('navRight').src='image/optimizedImage/Hi.svg';
-   $('head').append('<style>#navbar a:after{ background:#000 !important;}</style>');
-
-
-   $('#navbar a').css({
-    color: 'black'
-  });
-
-   $('#sticky').css({
-    color: 'black'
-  });
-   $('#navbar').css({
-    background: 'white'
-  });
-
-
- }
 
  ChangeColorBlack.onclick = function() {
-   changeTopBlack();
-   changeNavToWhite();
 
-   document.documentElement.style.setProperty('--swiper-theme-color', '#000');
-
-
-   document.getElementById('myImage').src='image/aaa.png';
-   document.getElementById('myImage2').src='image/frontblack.png';
-   document.getElementById('myImage3').src='image/frontblackstyle2.png';
-   document.getElementById("prodname").innerHTML ="Black AshE Hoodie";
-   document.getElementById("prodname2").innerHTML ="Black AshE Hoodie Glowing Edge";
-
-   document.getElementById('myImage4').src='image/pantblack.png';
-   document.getElementById('myImage5').src='image/pantgreyblack.png';
-   document.getElementById("prodname3").innerHTML ="Black AshE Pant";
-   document.getElementById("prodname4").innerHTML ="Grey Black AshE Pant";
-   document.getElementById("prodname3").style.color='black';
-   document.getElementById("prodname4").style.color='black';
-
-
-
-
-
-   document.getElementById('myImage6').src='image/blackHatFront.png';
-   document.getElementById('myImage7').src='image/blackHatBack.png';
-   document.getElementById('myImage8').src='image/blackHatBack.png';
-   document.getElementById('myImage9').src='image/blackHatFront.png';
-
-   document.getElementById("prodname5").innerHTML ="Black AshE Hat (Front View)";
-   document.getElementById("prodname6").innerHTML ="Black AshE Hat (Back View)";
-   document.getElementById("prodname5").style.color='black';
-   document.getElementById("prodname6").style.color='black';
-
-   document.getElementById("prodname7").innerHTML ="Black AshE Hat (Back View)";
-   document.getElementById("prodname8").innerHTML ="Black AshE Hat (Front View)";
-   document.getElementById("prodname7").style.color='black';
-   document.getElementById("prodname8").style.color='black';
-
-
-
-
-  /*
-   document.getElementById('myImage4').src='image/pantwhite.png';
-   document.getElementById('myImage5').src='image/pantgreywhite.png';
-  document.getElementById("prodname3").innerHTML ="White AshE Pant";
-  document.getElementById("prodname4").innerHTML ="Grey White AshE Pant";
-  document.getElementById("prodname3").style.color='black';
-  document.getElementById("prodname4").style.color='black';
-  */
-
-  document.getElementById("prodname").style.color='black';
-  document.getElementById("prodname2").style.color='black';
-  document.getElementById('daArrow').src='image/whiteArrow.png';
+   //document.documentElement.style.setProperty('--swiper-theme-color', '#000');
 
 };
 
@@ -376,60 +155,11 @@ changeAnnouncementBlack();
 
 ChangeColorWhite.onclick = function() {
 
-  changeTopWhite();
-
-  changeNavToBlack();
-
-
-
-  document.documentElement.style.setProperty('--swiper-theme-color', '#FFF');
-
-  document.getElementById('myImage').src='image/optimizedImage/Hi.svg';
-  document.getElementById('myImage2').src='image/frontwhite.png';
-  document.getElementById('myImage3').src='image/frontwhitestyle2.png';
-  document.getElementById("prodname").innerHTML ="White AshE Hoodie";
-  document.getElementById("prodname2").innerHTML ="White AshE Hoodie Glowing Edge";
-
-  document.getElementById('myImage4').src='image/pantwhite.png';
-  document.getElementById('myImage5').src='image/pantgreywhite.png';
-  document.getElementById("prodname3").innerHTML ="White AshE Pant";
-  document.getElementById("prodname4").innerHTML ="Grey White AshE Pant";
-  document.getElementById("prodname3").style.color='white';
-  document.getElementById("prodname4").style.color='white';
 
 
 
 
-  document.getElementById('myImage6').src='image/whiteHatFront.png';
-  document.getElementById('myImage7').src='image/whiteHatBack.png';
-  document.getElementById('myImage8').src='image/whiteHatBack.png';
-  document.getElementById('myImage9').src='image/whiteHatFront.png';
-
-  document.getElementById("prodname5").innerHTML ="White AshE Hat (Front View)";
-  document.getElementById("prodname6").innerHTML ="White AshE Hat (Back View)";
-  document.getElementById("prodname5").style.color='white';
-  document.getElementById("prodname6").style.color='white';
-
-  document.getElementById("prodname7").innerHTML ="White AshE Hat (Back View)";
-  document.getElementById("prodname8").innerHTML ="White AshE Hat (Front View)";
-  document.getElementById("prodname7").style.color='white';
-  document.getElementById("prodname8").style.color='white';
-
-
-
-  /*
-   document.getElementById('myImage4').src='image/pantblack.png';
-   document.getElementById('myImage5').src='image/pantgreyblack.png';
-  document.getElementById("prodname3").innerHTML ="Black AshE Pant";
-  document.getElementById("prodname4").innerHTML ="Grey Black AshE Pant";
-  document.getElementById("prodname3").style.color='white';
-  document.getElementById("prodname4").style.color='white';
-  */
-
-  document.getElementById("prodname").style.color='white';
-  document.getElementById("prodname2").style.color='white';
-  document.getElementById('daArrow').src='image/blackArrow.png';
-
+  //document.documentElement.style.setProperty('--swiper-theme-color', '#FFF');
 }
 
 
