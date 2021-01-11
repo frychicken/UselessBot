@@ -3,6 +3,10 @@ const config = process.env.TOKEN;
 const fs = require('fs');
 const express = require("express");
 const app = express();
+const gamblee = require("./gamble.json");
+const cron = require('node-cron');
+
+
 
 app.get("/", function(request, response) {
   response.sendFile(__dirname + "/views/index.html");
@@ -24,9 +28,29 @@ client.on('ready', () => {
   client.user.setActivity('Bob being awesome', { type: 'WATCHING' })
 })
 
+cron.schedule('*/10 * * * *', () => {
+  
+    for(var prop in gamblee) {
+      gamblee[prop] = Number(gamblee[prop])+5;
+      console.log("add 5 bobcoin");
+              const jsonString = JSON.stringify(gamblee,null, 2);
+              fs.writeFile('./gamble.json', jsonString, err => {
+                   if (err) {
+                     console.log('Error writing file', err);
+                    } else {
+                  console.log('Successfully wrote file');
+                  }
+             });
+   }
+  
+  
+});
+
+
 
 
 client.on("message", function(message) {
+
   
   if (message.author.bot) return;
   
@@ -77,30 +101,7 @@ client.on("message", function(message) {
                     message.channel.send("TIL when asked: <"+question+">, I answer: <"+answer+">");
       }
       
-           /*
-              const learn = {
-                question: question,
-                answer: answer,
-             }
-              
-              fs.readFile('./learn.json', 'utf8', (err, jsonString) => {
-                   if (err) {
-                    console.log("File read failed:", err);
-                  return;
-           }
-             console.log('File data:', jsonString); 
-          });
-              
-          const jsonString = JSON.stringify(learn);
-              fs.writeFile('./learn.json', jsonString, err => {
-                   if (err) {
-                     console.log('Error writing file', err);
-                    } else {
-                  console.log('Successfully wrote file');
-                  }
-             });
-      
-              */
+          
 
     };
   
@@ -149,7 +150,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !disguise, !send, !getavatar, !setavatar, !richness`);
   }
 
   else if (command === "contribute") {
@@ -220,6 +221,117 @@ client.on("message", function(message) {
 
     }
 
+  } 
+  else if (command ==="checkbank"){
+      if(gamblee.hasOwnProperty(message.author.id))
+       message.reply("You have: " + gamblee[message.author.id] +" bobcoin (ᗺ)");
+    else 
+      message.reply("You don't have a bank yet, use !gamble to start");
+    
+  } else if (command ==="richness"){
+    var max =0;
+    var richest="";
+    for(var prop in gamblee) {
+      if (gamblee[prop]>max){
+         max = gamblee[prop];  
+         richest=prop;
+      }
+      
+    }
+    
+    message.channel.send(client.users.cache.get(richest).username +"#"+client.users.cache.get(richest).discriminator +" owns the most bobcoins (ᗺ) with " +max+" (ᗺ) boi rich af");
+
+    
+  }
+  
+  
+  else if(command==="gettt"){
+    
+    
+    delete gamblee.amount;
+    delete gamblee.user366387372348407808;
+    delete gamblee.user;
+   
+
+  }
+  
+  else if (command==="gamble"){
+  
+    
+    /*
+              const gambleee = {
+                 user: message.author.id,
+                 amount: args[0]
+             }
+    
+    */
+    if(args[0]){
+         
+         if(gamblee.hasOwnProperty(message.author.id)){
+              if(Number(args[0]) > Number(gamblee[message.author.id])){
+                            message.reply("can't gamble more than what you have you dumb fooks");
+
+              }else{
+                
+                
+                   var gv= Math.floor(Math.random() * (11 - 0) + 0);
+                      if((gv <11) && (gv >5)){
+                        if(args[0].includes("all")){
+                          gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
+                        }
+                        else{
+                           gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
+                        }
+                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
+
+                      } else{
+                        
+                         if(args[0].includes("all")){
+                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(gamblee[message.author.id]);
+                         }else{
+                          gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(args[0]);
+                         }
+                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
+
+                      }
+                 
+                
+              }
+
+         }else{
+           gamblee[message.author.id] = 500;
+           message.reply("bank account created, now you can gamble! You currently have 500 (ᗺ)");
+
+         }
+  
+    
+    /*     fs.readFile('./gamble.json', 'utf8', (err, jsonString) => {
+                   if (err) {
+                    console.log("File read failed:", err);
+                  return;
+           }
+             console.log('File data:', jsonString); 
+       
+          });*/
+    
+          const jsonString = JSON.stringify(gamblee,null, 2);
+              fs.writeFile('./gamble.json', jsonString, err => {
+                   if (err) {
+                     console.log('Error writing file', err);
+                    } else {
+                  console.log('Successfully wrote file');
+                  }
+             });
+    }else{
+                 message.channel.send("arguments: !gamble <amount> or !gamble all");
+                 message.channel.send("To check how much money you have, use !checkbank, use !richness to wiew global ranking of bobcoins!");
+                message.channel.send("You will get 500 bobcoins to start with! you will receive 5 bobcoins every 10 mins");
+
+
+
+    }
+      
+         
   }
   
   else if (command ==="leaveplz"){
