@@ -21,7 +21,7 @@ const client = new Discord.Client();
 const prefix = "!";
 var check = false;
 client.on('ready', () => {
-  client.user.setActivity('Bob is the best', { type: 'PLAYING' })
+  client.user.setActivity('Bob being awesome', { type: 'WATCHING' })
 })
 
 
