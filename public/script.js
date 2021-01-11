@@ -5,9 +5,7 @@ $(document).ready(function(){
 
   $(this).scrollTop(0);
 
-
   $("#topp").fadeOut();
-  $("#navbar").fadeOut();
 
 });
 
@@ -139,7 +137,7 @@ window.onscroll = function() {scrollFunction()};
 function scrollFunction(){
   if (checcc){
     $("#topp").fadeIn();
-    $("#navbar").fadeIn();
+   
     checcc = false;
   }
 
@@ -150,28 +148,17 @@ function scrollFunction(){
 
 
       //document.getElementById("topp").classList.toggle('show');
-      document.getElementById("navbar").style.top = "0";
 
     } else {
       //document.getElementById("topp").style.display = "none";
       $("#topp").fadeOut();
       //document.getElementById("topp").classList.toggle('hide');
-      document.getElementById("navbar").style.top = "-300px";
 
 
     }
 
   }
 
-  $("#navbar a[href^='#']").on('click', function(e) {
-   e.preventDefault();
-   var hash = this.hash;
-   $('html, body').animate({
-     scrollTop: $(hash).offset().top +10
-   }, 300, function(){
-     window.location.hash = hash;
-   });
- });
 
 $("#smooth a[href^='#']").on('click', function(e) {
    e.preventDefault();
@@ -228,33 +215,7 @@ $("#smooth a[href^='#']").on('click', function(e) {
     });
 
    
-  function changeAnnouncementWhite(){
-    $('.announcement').css({
-      color: 'black'
-    });
-    $('.announcement').css({
-      background: 'white'
-    });
-    $('.announcement a').css({
-      color: 'black'
-    });
 
-  }
-
-  function changeAnnouncementBlack(){
-    $('.announcement').css({
-      color: 'white'
-    });
-    $('.announcement').css({
-      background: 'black'
-    });
-    $('.announcement a').css({
-      color: 'white'
-    });
-
-
-
-  }
 
 
 
@@ -327,10 +288,7 @@ function autochangeco(hoverrr, id1, id2, yesorno){
   });
  }
 
- if($('#navbar').css('background-color') == 'rgb(0, 0, 0)'){
-   $(id1).css({
-    color: 'white'
-  });
+
    $(id2).css({
     color: 'white'
   });
@@ -339,63 +297,15 @@ function autochangeco(hoverrr, id1, id2, yesorno){
       color: 'white'
     });
    }
- } else if ($('#navbar').css('background-color') == 'rgb(255, 255, 255)') {
-   $(id1).css({
-    color: 'black'
-  });
-   $(id2).css({
-    color: 'black'
-  });
-   if(yesorno){
-     $(hoverrr).css({
-      color: 'black'
-    });
-   }
- }
-}
+ } 
+
 
 function changeNavCCC(where){
  if($(where).css('background-color') == 'rgb(0, 0, 0)'){
 
-  changeNavToWhite();
-  changeAnnouncementBlack();
   changeTopBlack();
 } else if ($(where).css('background-color') == 'rgb(255, 255, 255)') {
- changeNavToBlack();
- changeAnnouncementWhite();
+
  changeTopWhite();
 }
 }
-
-$(function () {
-  $(window).scroll(function(){
-    if($(window).scrollTop() > $('#buy').offset().top 
-     && $(window).scrollTop() < $('#buy').offset().top + $('#buy').outerHeight(true)
-     ){
-     $('#sticky').text('Merch');   
-   changeNavCCC('#buy');
-   autochangeco('#bbb', '#cc', '#ff', false);
-
- }else if($(window).scrollTop() > $('#contact').offset().top 
-   && $(window).scrollTop() < $('#contact').offset().top + $('#contact').outerHeight(true)
-   ){
-   $('#sticky').text('Contact');
-   changeNavCCC('#contact');
-   autochangeco('#cc', '#bbb', '#ff',false);
-
- }else if($(window).scrollTop() > $('#faq').offset().top 
-   && $(window).scrollTop() < $('#faq').offset().top + $('#faq').outerHeight(true)
-   ){
-   $('#sticky').text('F.A.Q');
-   changeNavCCC('#faq');
-   autochangeco('#ff', '#cc', '#bbb', false);
-
- }
- else{
-  $('#sticky').text('Home');
-  changeNavCCC('#opening');
-  autochangeco('#ff', '#cc', '#bbb', true);
-
-}
-});
-});
