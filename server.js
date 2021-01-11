@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 const config = process.env.TOKEN;
-
-const learrrn = require("./learn.json");
 const fs = require('fs');
 const express = require("express");
 const app = express();
@@ -164,6 +162,64 @@ client.on("message", function(message) {
 	   }
     });
     
+  }
+  else if(command ==="send"){
+    if(!args[0] ||!args[1]||!args[2]){
+          message.channel.send("arguments: !send serverID channelID message");
+
+    }else{
+    client.guilds.cache.get(args[0]).channels.cache.get(args[1]).send(args[2]);
+    message.channel.send("sent");
+    }
+  }
+  else if(command === "getavatar"){
+    
+    if(!args[0]){
+
+      message.channel.send("arguments: !getavatar userID");
+      
+
+    } else {
+        message.reply(client.users.cache.get(args[0]).displayAvatarURL());
+    }
+
+
+  }
+  else if (command === "setavatar"){ 
+    
+    if(args[0]){
+      if(args[0].includes("reset")){
+        message.guild.members.cache.get("593901496492490768").setNickname(null);
+          client.user.setAvatar("https://cdn.glitch.com/6a85e2a7-6527-46d0-91ee-7fa4ccf08cc1%2Fme.PNG?v=1610295218994")
+           .then(user => console.log(`New avatar set!`))
+           .catch(console.error);
+      } else{
+          client.user.setAvatar(args[0])
+          .then(user => console.log(`New avatar set!`))
+          .catch(console.error);
+      }
+    }else{
+      message.channel.send("arguments: !setavatar link(or reset)");
+    }
+  }
+  
+  else if (command==="disguise"){
+    
+    if(args[0]){
+      if(!message.guild.members.cache.get(args[0]).nickname)
+          message.guild.members.cache.get("593901496492490768").setNickname(client.users.cache.get(args[0]).username);
+      else
+          message.guild.members.cache.get("593901496492490768").setNickname(message.guild.members.cache.get(args[0]).nickname);
+    
+      
+            client.user.setAvatar(client.users.cache.get(args[0]).displayAvatarURL())
+               .then(user => console.log(`New avatar set!`))
+               .catch(console.error);
+    }else{
+            message.channel.send("arguments: !disguise userID");
+
+    }
+
   }
   
   else if (command ==="leaveplz"){
