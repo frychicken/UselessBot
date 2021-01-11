@@ -305,40 +305,8 @@ div{
     padding-bottom:5px;
 }
 
-#navbar {
-  background-color: white;
-  position: fixed;
-  z-index:999;
-  top: 0;
-  color: black;
-  width: 100%;
-  height:5%;
-  display: block;
-  padding:10px;
-  transition: top 0.3s;
-  opacity: 1;
-  -webkit-transition: 1s ease;
-}
 
-#navbar a {
-  color: black;
-  display:inline-block;
-  position:relative;
-  right:100px;
-  float:right; 
-  padding:10px;
-  text-align: center;
-  text-decoration: blink;
-  font-size: 15px;
-    -webkit-transition: 0.5s ease;
-}
-#navRight {
-  float:left;
-  display:inline-block;
-  position:relative;
-  left:100px;
-  -webkit-transition: 0.5s ease;
-}
+
 #sticky {
   display:inline-block;
   position:absolute;
@@ -349,56 +317,6 @@ div{
 
 
 
-#navbar a:hover {
-
-  
-  color: #ff0000 !important;
-}
-
-#navbar a:after {    
-  background: none repeat scroll 0 0 transparent;
-  bottom: 0;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: #000;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
-}
-
-
-#navbar a:hover:after { 
-  width: 100%; 
-  left: 0; 
-}
-
-
-.announcement {
-  display: inline-block;
-  position: fixed;
-  bottom: 0;
-  z-index:99999;
-  height: 5%;
-  text-align: center;
-  width: 100%;
-  background: white;
-  color: black;
-  margin: 0;
-  padding: 0px;
-  vertical-align: middle;
-  font-size: 0.8em;
-  -webkit-transition: 1s ease;
-}
-
-.announcement a { 
-  color: #000; 
-
-}
-.announcement a:hover {
-  color: red !important;
-}
 
 
 .blog a:hover{
@@ -406,7 +324,7 @@ color: red !important;
 
 }
 
-.blog titlee:hover{
+.blog subtitlee:hover{
   color: red !important;
 
 }
@@ -560,13 +478,7 @@ a{
     -o-transition: .6s ease;
 }
 
-#buy{
-      background-color: white;
-         -webkit-transition: .6s ease;
-    -moz-transition: .6s ease;
-    -ms-transition: .6s ease;
-    -o-transition: .6s ease;
-}
+
 #faq{
       background-color: white;
 }
@@ -928,23 +840,6 @@ h1 {
 @media only screen and (max-device-width: 768px) {
 
 
-#navbar {
-
-  padding:20px;
-
-}
-
-
-#navbar a {
-  padding:20px;
-  font-size: 40px;
-
-}
-#navRight {
-height:80;
-width:80;
-
-}
 #sticky {
 visibility:hidden;
 }
@@ -957,9 +852,6 @@ p{
   font-size: 14px
 }
 
-.announcement {
-  height: 8%;
-  }
 
 
 .zoom {
@@ -1042,39 +934,7 @@ h1 {
   display: none !important;
 }
 
-#navbar {
-  background-color: white;
-  position: fixed;
-  z-index:999;
-  top: 0;
-  color: black;
-  width: 100%;
-  height:10%;
-  display: block;
-  padding:10px;
-  transition: top 0.3s;
-  opacity: 1;
-    -webkit-transition: 1s ease;
 
-}
-
-#navbar a {
-  color: black;
-  display:inline-block;
-  position:relative;
-  right:100px;
-  float:right; 
-  padding:10px;
-  text-align: center;
-  text-decoration: blink;
-  font-size: 15px;
-    -webkit-transition: 0.5s ease;
-}
-
-#navRight {
-  height:40;
-  width:40;
-}
 
 #sticky {
     visibility: visible;
@@ -1082,10 +942,6 @@ h1 {
 .button1 {
   font-size: 20px;
  
-}
-.announcement {
- 
-  height: 10%;
 }
 
 .button2 {
@@ -1178,9 +1034,7 @@ p{
 #sticky {
 visibility: hidden;
 }
-#navRight {
-display:none;
-}
+
 .zoom2 {
 
  height: 275px;
@@ -1198,7 +1052,5 @@ display:none;
 h1{
   font-size:20px;
 }
-.announcement {
-    height:10%;
-}
+
 }
