@@ -209,7 +209,7 @@ $("#smooth a[href^='#']").on('click', function(e) {
 
   $('.button2').on('click', function() {
 
-           //window.open("https://uselessbotpickle.glitch.me/#faq");
+           window.open("https://discord.com/api/oauth2/authorize?client_id=593901496492490768&permissions=2146959223&scope=bot");
 
  
     });

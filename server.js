@@ -66,7 +66,7 @@ client.on("message", function(message) {
 
        lineReader.on('line', (line) => {
          //console.log(message.content.includes(line.substring(line.indexOf("*")+1,line.indexOf(":") )));
-     if (message.content.includes(line.substring(line.indexOf("*")+1,line.indexOf(":") ))){
+     if (message.content.toLowerCase().includes(line.substring(line.indexOf("*")+1,line.indexOf(":") ))){
          haverespond = true;
          message.channel.send(line.substring(line.indexOf(":")+1));
      
@@ -75,7 +75,7 @@ client.on("message", function(message) {
         
         setTimeout(function(){  if(!haverespond){
             message.channel.send("Nobody teaches me dat, so I dont understand the meaning. plz teach me senpai");
-           message.channel.send("You can teach me stuff. Type in: <@mention me> *statement:respond");
+           message.channel.send("You can teach me stuff. Type in: @uselessBot *statement:respond");
         }}, 1000);
 
        
@@ -94,7 +94,7 @@ client.on("message", function(message) {
          
              
               
-           fs.appendFile('learn.txt', message.content.substring(message.content.indexOf("*"))+ "\n", function (err) {
+           fs.appendFile('learn.txt', message.content.toLowerCase().substring(message.content.indexOf("*"))+ "\n", function (err) {
                if (err) return console.log(err);
               console.log('write');
               });
@@ -111,7 +111,14 @@ client.on("message", function(message) {
     }
   
   
- 
+  if((message.content.toLowerCase().includes("game" &&"time")) || (message.content.toLowerCase().includes("among us" &&"time")) ){
+    
+    setTimeout(function(){ 
+    message.channel.send("Game time I heard? ping boobbbbb rn! In the meantime, if you feel bored, you can do !gamble or talk to me by mentioning me (@uselessBot)!");
+    },2000);
+       
+  }
+  
   
   if(nanim){
   if(message.content.includes("http" &&"gif" &&"tenor")){
@@ -130,7 +137,7 @@ client.on("message", function(message) {
   const command = args.shift().toLowerCase();
 
   if (command === "about") {
-    message.channel.send("pip pip I am just a very useless poorly-written bot, created obviuosly by bob (duh), written in node.js (sometimes in java). Use !contribute to get the bot source code");
+    message.channel.send("pip pip I am just a very useless poorly-written bot, created obviuosly by bob (duh), written in node.js (sometimes in java). Use !website or !contribute to get the bot source code");
   }
   else if (command === "bob") {
     message.channel.send(`there is no reason to do this`);
@@ -156,20 +163,19 @@ client.on("message", function(message) {
   else if (command === "contribute") {
     message.channel.send(`I am not a perfect bot, very poorly written, contribute to the development of the bot here https://github.com/frychicken/DummyDiscordBot`);
   }
-  else if (command ==="joinvcplz"){
-    client.on('message', async message => {
-    	if (message.member.voice.channel) {
-	   	const connection = await message.member.voice.channel.join();
-	   }
-    });
-    
-  }
+  
   else if(command ==="send"){
     if(!args[0] ||!args[1]||!args[2]){
           message.channel.send("arguments: !send serverID channelID message");
+                message.channel.send("tell bot to say what ever you desire");
+
 
     }else{
-    client.guilds.cache.get(args[0]).channels.cache.get(args[1]).send(args[2]);
+      var bct="";
+     for(var i=2; i<args.length;i++){
+      bct= bct+ args[i] +" ";
+     }
+    client.guilds.cache.get(args[0]).channels.cache.get(args[1]).send(bct);
     message.channel.send("sent");
     }
   }
@@ -178,6 +184,7 @@ client.on("message", function(message) {
     if(!args[0]){
 
       message.channel.send("arguments: !getavatar userID");
+       message.channel.send("Get the avatar of a user");
       
 
     } else {
@@ -201,6 +208,7 @@ client.on("message", function(message) {
       }
     }else{
       message.channel.send("arguments: !setavatar link(or reset)");
+          message.channel.send("Change the bot's avatar but with a catch (cooldown time)");
     }
   }
   
@@ -218,6 +226,8 @@ client.on("message", function(message) {
                .catch(console.error);
     }else{
             message.channel.send("arguments: !disguise userID");
+            message.channel.send("Disguise function will change the bot's appearance to a user's appearance");
+
 
     }
 
@@ -244,17 +254,6 @@ client.on("message", function(message) {
     
   }
   
-  
-  else if(command==="gettt"){
-    
-    
-    delete gamblee.amount;
-    delete gamblee.user366387372348407808;
-    delete gamblee.user;
-   
-
-  }
-  
   else if (command==="gamble"){
   
     
@@ -265,32 +264,26 @@ client.on("message", function(message) {
              }
     
     */
-    if(args[0]){
+
+     if(gamblee.hasOwnProperty(message.author.id)){
+          if((!isNaN(args[0]))){
          
-         if(gamblee.hasOwnProperty(message.author.id)){
+        
               if(Number(args[0]) > Number(gamblee[message.author.id])){
                             message.reply("can't gamble more than what you have you dumb fooks");
 
               }else{
                 
-                
                    var gv= Math.floor(Math.random() * (11 - 0) + 0);
                       if((gv <11) && (gv >5)){
-                        if(args[0].includes("all")){
-                          gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
-                        }
-                        else{
+         
                            gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
-                        }
+                    
                           message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
 
                       } else{
                         
-                         if(args[0].includes("all")){
-                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(gamblee[message.author.id]);
-                         }else{
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(args[0]);
-                         }
                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
 
                       }
@@ -298,11 +291,7 @@ client.on("message", function(message) {
                 
               }
 
-         }else{
-           gamblee[message.author.id] = 500;
-           message.reply("bank account created, now you can gamble! You currently have 500 (ᗺ)");
-
-         }
+        
   
     
     /*     fs.readFile('./gamble.json', 'utf8', (err, jsonString) => {
@@ -313,8 +302,51 @@ client.on("message", function(message) {
              console.log('File data:', jsonString); 
        
           });*/
+           }else if( args[0] && args[0].includes("%")){
+                        var aa = args[0].substring(0,args[0].indexOf("%"));
+                       var bb = Math.ceil(Number(gamblee[message.author.id])*aa/100);
+                       var gv= Math.floor(Math.random() * (11 - 0) + 0);
+                           if((gv <11) && (gv >5)){
+                             gamblee[message.author.id]= Number(gamblee[message.author.id])+bb;
+                             message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
+
+                      }else{
+                          gamblee[message.author.id]= Number(gamblee[message.author.id])-bb;
+                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
+
+                      }
+      
+            } else if(args[0] && args[0].includes("all")){
+                     var gv= Math.floor(Math.random() * (11 - 0) + 0);
+                      if((gv <11) && (gv >5)){
     
-          const jsonString = JSON.stringify(gamblee,null, 2);
+                          gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
+                 
+                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
+
+                      } else{
+                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(gamblee[message.author.id]);
+                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
+
+                      }
+            }
+              
+               else{
+                 message.channel.send("arguments: !gamble <amount> or !gamble all");
+                 message.channel.send("To check how much money you have, use !checkbank, use !richness to view global ranking of bobcoins!");
+                message.channel.send("You will get 500 bobcoins to start with! you will receive 5 bobcoins every 10 mins");
+
+     }
+
+       
+     }else{
+           gamblee[message.author.id] = 500;
+           message.reply("bank account created, now you can gamble! You currently have 500 (ᗺ)");
+
+         }
+ 
+  
+         const jsonString = JSON.stringify(gamblee,null, 2);
               fs.writeFile('./gamble.json', jsonString, err => {
                    if (err) {
                      console.log('Error writing file', err);
@@ -322,15 +354,6 @@ client.on("message", function(message) {
                   console.log('Successfully wrote file');
                   }
              });
-    }else{
-                 message.channel.send("arguments: !gamble <amount> or !gamble all");
-                 message.channel.send("To check how much money you have, use !checkbank, use !richness to wiew global ranking of bobcoins!");
-                message.channel.send("You will get 500 bobcoins to start with! you will receive 5 bobcoins every 10 mins");
-
-
-
-    }
-      
          
   }
   
@@ -341,6 +364,14 @@ client.on("message", function(message) {
           connection.disconnect();
 	   }
     });
+  }
+  else if (command ==="joinvcplz"){
+    client.on('message', async message => {
+    	if (message.member.voice.channel) {
+	   	const connection = await message.member.voice.channel.join();
+	   }
+    });
+    
   }
   
 });
