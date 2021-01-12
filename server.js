@@ -241,17 +241,44 @@ client.on("message", function(message) {
   } else if (command ==="richness"){
     var max =0;
     var richest="";
+    var arrA = new Array();
+    var secondr="";
+    var thirdr="";
+    var min="";
+    var i=0;
+    var yorank=0;
     for(var prop in gamblee) {
+      arrA[i] = gamblee[prop];
+      i++;
       if (gamblee[prop]>max){
          max = gamblee[prop];  
          richest=prop;
-      }
-      
+      } 
     }
-    
+    arrA.sort();
+    arrA.reverse();
+  
+    for(var prop in gamblee) {
+      if(message.author.id===prop){
+        for(var ii=0;ii<arrA.length;ii++){
+          if(gamblee[prop] ===arrA[ii]){
+            yorank=ii +1;
+          }
+        }
+      }
+      if(arrA[arrA.length-1] === gamblee[prop]){
+        min =prop;
+      }
+      if (arrA[1] === gamblee[prop]){
+        secondr = prop;
+      }else if(arrA[2] === gamblee[prop]){
+        thirdr=prop;
+      }
+    }
     message.channel.send(client.users.cache.get(richest).username +"#"+client.users.cache.get(richest).discriminator +" owns the most bobcoins (ᗺ) with " +max+" (ᗺ) boi rich af");
-
-    
+    message.channel.send("followed by "+client.users.cache.get(secondr).username+" with " + arrA[1] +"(ᗺ) and "+client.users.cache.get(thirdr).username +" "+ arrA[2] +"(ᗺ) for the second and third richest");
+    message.channel.send(client.users.cache.get(min).username +" is the poorest has "+ arrA[arrA.length-1] +"(ᗺ), unlucky chad!");
+    message.reply("your rank is " + yorank +" out of " + arrA.length);
   }
   
   else if (command==="gamble"){
@@ -280,11 +307,13 @@ client.on("message", function(message) {
                            gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
                     
                           message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
+                             message.reply("Do !richness to see your rank!");
 
                       } else{
                         
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(args[0]);
                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
+                             message.reply("Do !richness to see your rank!");
 
                       }
                  
@@ -309,10 +338,11 @@ client.on("message", function(message) {
                            if((gv <11) && (gv >5)){
                              gamblee[message.author.id]= Number(gamblee[message.author.id])+bb;
                              message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
-
+                             message.reply("Do !richness to see your rank!");
                       }else{
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-bb;
                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
+                         message.reply("Do !richness to see your rank!");
 
                       }
       
@@ -323,25 +353,27 @@ client.on("message", function(message) {
                           gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
                  
                           message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
+                          message.reply("Do !richness to see your rank!");
+
 
                       } else{
                            gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(gamblee[message.author.id]);
                            message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
-
+                          message.reply("Do !richness to see your rank!");
                       }
             }
               
                else{
                  message.channel.send("arguments: !gamble <amount> or !gamble all");
                  message.channel.send("To check how much money you have, use !checkbank, use !richness to view global ranking of bobcoins!");
-                message.channel.send("You will get 500 bobcoins to start with! you will receive 5 bobcoins every 10 mins");
+                 message.channel.send("You will get 500 bobcoins to start with! you will receive 5 bobcoins every 10 mins");
 
      }
 
        
      }else{
            gamblee[message.author.id] = 500;
-           message.reply("bank account created, now you can gamble! You currently have 500 (ᗺ)");
+           message.reply("bank account created, now you can gamble by doing !gamble <amount>! You currently have 500 (ᗺ)");
 
          }
  
