@@ -18,6 +18,10 @@ const listener = app.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
+app.get("/gamble.json", function (request, response) {
+  response.sendFile(__dirname + '/gamble.json');
+});
+
 
 const client = new Discord.Client();
  var nanim = true;
@@ -48,6 +52,33 @@ cron.schedule('*/10 * * * *', () => {
 
 
 
+function yoraank(arthuuur){
+     var arrA =[];
+      var i=0;
+    var yorank=0;
+    for(var prop in gamblee) {
+       arrA[i] = gamblee[prop];
+      i++;
+
+    }
+    
+    arrA.sort(function(a, b) {
+     return a - b;
+   });
+
+    arrA.reverse();
+
+    for(var prop in gamblee) {
+      if(arthuuur===prop){
+        for(var ii=0;ii<arrA.length;ii++){
+          if(gamblee[prop] ===arrA[ii]){
+            yorank=ii +1;
+          }
+        }
+      }
+}
+  return yorank+ " out of " +arrA.length;
+}
 
 client.on("message", function(message) {
 
@@ -241,23 +272,27 @@ client.on("message", function(message) {
   } else if (command ==="richness"){
     var max =0;
     var richest="";
-    var arrA = new Array();
+    var arrA = [];
     var secondr="";
     var thirdr="";
     var min="";
     var i=0;
     var yorank=0;
     for(var prop in gamblee) {
-      arrA[i] = gamblee[prop];
+       arrA[i] = gamblee[prop];
       i++;
       if (gamblee[prop]>max){
          max = gamblee[prop];  
          richest=prop;
       } 
     }
-    arrA.sort();
+    
+    arrA.sort(function(a, b) {
+     return a - b;
+   });
+
     arrA.reverse();
-  
+
     for(var prop in gamblee) {
       if(message.author.id===prop){
         for(var ii=0;ii<arrA.length;ii++){
@@ -266,6 +301,7 @@ client.on("message", function(message) {
           }
         }
       }
+      
       if(arrA[arrA.length-1] === gamblee[prop]){
         min =prop;
       }
@@ -306,14 +342,16 @@ client.on("message", function(message) {
          
                            gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
                     
-                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
-                             message.reply("Do !richness to see your rank!");
+                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
+                                                   
+
 
                       } else{
                         
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(args[0]);
-                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
-                             message.reply("Do !richness to see your rank!");
+                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
+                                                 
+
 
                       }
                  
@@ -337,12 +375,13 @@ client.on("message", function(message) {
                        var gv= Math.floor(Math.random() * (11 - 0) + 0);
                            if((gv <11) && (gv >5)){
                              gamblee[message.author.id]= Number(gamblee[message.author.id])+bb;
-                             message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
-                             message.reply("Do !richness to see your rank!");
+                             message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
+                            
                       }else{
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-bb;
-                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
-                         message.reply("Do !richness to see your rank!");
+                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
+                         
+
 
                       }
       
@@ -352,14 +391,14 @@ client.on("message", function(message) {
     
                           gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
                  
-                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ)");
-                          message.reply("Do !richness to see your rank!");
+                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
+
 
 
                       } else{
                            gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(gamblee[message.author.id]);
-                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ)");
-                          message.reply("Do !richness to see your rank!");
+                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
+
                       }
             }
               
