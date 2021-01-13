@@ -25,18 +25,17 @@ app.get("/gamble.json", function (request, response) {
 
 const client = new Discord.Client();
  var nanim = true;
-
 const prefix = "!";
 var check = false;
 client.on('ready', () => {
   client.user.setActivity('Bob being awesome', { type: 'WATCHING' })
 })
 
-cron.schedule('*/10 * * * *', () => {
+cron.schedule('*/50 * * * *', () => {
   
     for(var prop in gamblee) {
-      gamblee[prop] = Number(gamblee[prop])+5;
-      console.log("add 5 bobcoin");
+      gamblee[prop] = Number(gamblee[prop])+10;
+      console.log("add 10 bobcoin");
               const jsonString = JSON.stringify(gamblee,null, 2);
               fs.writeFile('./gamble.json', jsonString, err => {
                    if (err) {
@@ -82,6 +81,20 @@ function yoraank(arthuuur){
 
 client.on("message", function(message) {
 
+  if(message.guild){
+     console.log(message.guild.name+" on "+message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content);
+            fs.appendFile('log.txt', message.guild.name+" on "+message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content+ "\n", function (err) {
+               if (err) return console.log(err);
+              console.log('writelog');
+              });
+  }
+    else{
+  console.log(message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content);
+             fs.appendFile('log.txt', message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content+ "\n", function (err) {
+               if (err) return console.log(err);
+              console.log('writelog');
+              });
+    }
   
   if (message.author.bot) return;
   
@@ -171,7 +184,8 @@ client.on("message", function(message) {
     message.channel.send("pip pip I am just a very useless poorly-written bot, created obviuosly by bob (duh), written in node.js (sometimes in java). Use !website or !contribute to get the bot source code");
   }
   else if (command === "bob") {
-    message.channel.send(`there is no reason to do this`);
+    message.channel.send(`there is no reason to do this but here is a sneakpeek of the coming future of this bot`);
+    message.channel.send(`My goal is to replace bob forever using one of his newest neural engine, this bot is not a simple gambling machine but rather a sophisticated robot`);
   }
   else if (command === "website") {
     message.channel.send(`website is available here https://uselessbotpickle.glitch.me/`);
@@ -188,7 +202,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !disguise, !send, !getavatar, !setavatar, !richness`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness`);
   }
 
   else if (command === "contribute") {
@@ -198,7 +212,7 @@ client.on("message", function(message) {
   else if(command ==="send"){
     if(!args[0] ||!args[1]||!args[2]){
           message.channel.send("arguments: !send serverID channelID message");
-                message.channel.send("tell bot to say what ever you desire");
+                message.channel.send("tell bot to say what ever you desire to a channel in a server (the bot gotta have permission and be in both of them)");
 
 
     }else{
@@ -262,7 +276,46 @@ client.on("message", function(message) {
 
     }
 
-  } 
+  }
+  else if (command==="givebob"){
+    if(!isNaN(args[1]) && args[0]&&args[1]){
+      if(args[1]<= gamblee[message.author.id] ){
+      gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(args[1]);
+      gamblee[args[0]]=  Number(gamblee[args[0]])+ Number(args[1]);
+        message.channel.send(  "You gave (ᗺ)"+args[1]+", "+client.users.cache.get(args[0]).username +" now has (ᗺ)"+gamblee[args[0]]);
+        message.reply("You now have (ᗺ)"+gamblee[message.author.id]);
+      }else {
+        message.channel.send("Cant give more than what you have ;)");
+      }
+    }
+    else if(args[1].includes("%")){
+       var aa = args[1].substring(0,args[1].indexOf("%"));
+       var bb = Math.ceil(Number(gamblee[message.author.id])*aa/100);
+       gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(bb);
+        gamblee[args[0]]=  Number(gamblee[args[0]])+ Number(bb);
+        message.channel.send(  "You gave (ᗺ)"+bb+", "+client.users.cache.get(args[0]).username +" now has (ᗺ)"+gamblee[args[0]]);
+        message.reply("You now have (ᗺ)"+gamblee[message.author.id]);
+    }else if(args[1].includes("all")){ 
+        var xxyx=gamblee[message.author.id];
+        gamblee[args[0]]=  Number(gamblee[args[0]])+ Number(gamblee[message.author.id]);
+        gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(gamblee[message.author.id]);
+        message.channel.send(  "You gave (ᗺ)"+xxyx+", "+client.users.cache.get(args[0]).username +" now has (ᗺ)"+gamblee[args[0]]);
+        message.reply("You now have (ᗺ)"+gamblee[message.author.id]);
+    }
+    
+    else{
+                  message.channel.send("arguments: !givebob userID amount");
+
+    }
+            const jsonString = JSON.stringify(gamblee,null, 2);
+              fs.writeFile('./gamble.json', jsonString, err => {
+                   if (err) {
+                     console.log('Error writing file', err);
+                    } else {
+                  console.log('Successfully wrote file');
+                  }
+             });
+  }
   else if (command ==="checkbank"){
       if(gamblee.hasOwnProperty(message.author.id))
        message.reply("You have: " + gamblee[message.author.id] +" bobcoin (ᗺ)");
@@ -314,6 +367,9 @@ client.on("message", function(message) {
     message.channel.send(client.users.cache.get(richest).username +"#"+client.users.cache.get(richest).discriminator +" owns the most bobcoins (ᗺ) with " +max+" (ᗺ) boi rich af");
     message.channel.send("followed by "+client.users.cache.get(secondr).username+" with " + arrA[1] +"(ᗺ) and "+client.users.cache.get(thirdr).username +" "+ arrA[2] +"(ᗺ) for the second and third richest");
     message.channel.send(client.users.cache.get(min).username +" is the poorest has "+ arrA[arrA.length-1] +"(ᗺ), unlucky chad!");
+    if(yorank==0){
+      message.reply("You have not made a bank yet, use !gamble to start!");
+    }else 
     message.reply("your rank is " + yorank +" out of " + arrA.length);
   }
   
@@ -404,8 +460,8 @@ client.on("message", function(message) {
               
                else{
                  message.channel.send("arguments: !gamble <amount> or !gamble all");
-                 message.channel.send("To check how much money you have, use !checkbank, use !richness to view global ranking of bobcoins!");
-                 message.channel.send("You will get 500 bobcoins to start with! you will receive 5 bobcoins every 10 mins");
+                 message.channel.send("To check how much money you have, use !checkbank, use !givebob to give somebody your bobcoins!, use !richness to view global ranking of bobcoins!");
+                 message.channel.send("You will get 500 bobcoins to start with! you will receive 10 bobcoins every 50 mins");
 
      }
 
@@ -426,6 +482,24 @@ client.on("message", function(message) {
                   }
              });
          
+  } else if (command==="senduser"){
+            
+        if(!args[0] ||!args[1]){
+          message.channel.send("arguments: !send userID message");
+                message.channel.send("tell bot to say what ever you desire to a user! the bot gotta have a mutual server with that user!");
+
+
+    }else{
+      var bct="";
+     for(var i=1; i<args.length;i++){
+      bct= bct+ args[i] +" ";
+     }
+    client.users.cache.get(args[0]).send(bct);
+
+    message.channel.send("sent");
+    }
+    
+
   }
   
   else if (command ==="leaveplz"){
