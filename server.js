@@ -202,7 +202,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness`);
   }
 
   else if (command === "contribute") {
@@ -317,12 +317,57 @@ client.on("message", function(message) {
              });
   }
   else if (command ==="checkbank"){
-      if(gamblee.hasOwnProperty(message.author.id))
+    if(!args[0]){
+      if(gamblee.hasOwnProperty(message.author.id)){
        message.reply("You have: " + gamblee[message.author.id] +" bobcoin (ᗺ)");
-    else 
-      message.reply("You don't have a bank yet, use !gamble to start");
+       message.channel.send("You can also do !checkbank userID to check how much bobcoins the other user has");
+      }else{
+      message.reply(" You don't have a bank yet, use !gamble to start");
+      message.channel.send("You can also do !checkbank userID to check how much bobcoins the other user has");
+ 
+      }
+    }else if(gamblee.hasOwnProperty(args[0])){
+      message.channel.send(client.users.cache.get(args[0]).username +" has: " + gamblee[args[0]] +" bobcoin (ᗺ)");
+    }
+    else {
+      message.channel.send("typo? could not find that user. ");
+    }
     
-  } else if (command ==="richness"){
+  }
+  else if (command ==="donatebob"){
+    if(!isNaN(args[0])){
+            if(args[0]<= gamblee[message.author.id] ){
+                 gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(args[0]);
+              message.reply("You donated (ᗺ)"+ args[0]+" to bobBank you now have " +gamblee[message.author.id]+"(ᗺ)");
+            }else {
+              message.reply("Can't donate more than what you have, gotta take care of yourself first. ");
+            }
+    }else if (args[0]&&args[0].includes("all")){
+              var cc =gamblee[message.author.id];
+              gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(gamblee[message.author.id]);
+              message.reply("You donated (ᗺ)"+ cc+" to bobBank you now have " +gamblee[message.author.id]+"(ᗺ)");
+    }else if (args[0]&&args[0].includes("%")){
+         var aa = args[0].substring(0,args[0].indexOf("%"));
+         var bb = Math.ceil(Number(gamblee[message.author.id])*aa/100);
+         gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(bb);
+         message.reply("You donated (ᗺ)"+ args[0]+" to bobBank you now have " +gamblee[message.author.id]+"(ᗺ)");
+    }
+    
+    else{
+      message.channel.send("arguments: !donatebob amount");
+      message.channel.send("This is how you throw away the money to the bobBank");
+    }
+              const jsonString = JSON.stringify(gamblee,null, 2);
+              fs.writeFile('./gamble.json', jsonString, err => {
+                   if (err) {
+                     console.log('Error writing file', err);
+                    } else {
+                  console.log('Successfully wrote file');
+                  }
+             });
+  }
+  
+  else if (command ==="richness"){
     var max =0;
     var richest="";
     var arrA = [];
