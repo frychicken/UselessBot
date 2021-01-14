@@ -36,7 +36,15 @@ cron.schedule('*/50 * * * *', () => {
     for(var prop in gamblee) {
       gamblee[prop] = Number(gamblee[prop])+10;
       console.log("add 10 bobcoin");
-              const jsonString = JSON.stringify(gamblee,null, 2);
+     writeFile();
+   }
+  
+  
+});
+
+
+function writeFile(){
+                const jsonString = JSON.stringify(gamblee,null, 2);
               fs.writeFile('./gamble.json', jsonString, err => {
                    if (err) {
                      console.log('Error writing file', err);
@@ -44,11 +52,18 @@ cron.schedule('*/50 * * * *', () => {
                   console.log('Successfully wrote file');
                   }
              });
-   }
-  
-  
-});
+}
 
+function getpercentage(stringggg, arthurID){
+
+     var bb=stringggg;
+     var aa = stringggg.substring(0,stringggg.indexOf("%"));
+ 
+     if(isNaN(aa)||aa===""||aa===" "){
+       aa= Number(bb.substring(bb.indexOf("%")+1));
+     }
+       return Math.ceil(Number(gamblee[arthurID])*aa/100);
+}
 
 
 function yoraank(arthuuur){
@@ -85,14 +100,14 @@ client.on("message", function(message) {
      console.log(message.guild.name+" on "+message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content);
             fs.appendFile('log.txt', message.guild.name+" on "+message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content+ "\n", function (err) {
                if (err) return console.log(err);
-              console.log('writelog');
+      
               });
   }
     else{
   console.log(message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content);
              fs.appendFile('log.txt', message.channel.name+" on "+message.author.username+"#"+message.author.discriminator+": "+message.content+ "\n", function (err) {
                if (err) return console.log(err);
-              console.log('writelog');
+             
               });
     }
   
@@ -277,6 +292,11 @@ client.on("message", function(message) {
     }
 
   }
+  else if (command==="fix"){
+   
+    
+    writeFile();
+  }
   else if (command==="givebob"){
     if(!isNaN(args[1]) && args[0]&&args[1]){
       if(args[1]<= gamblee[message.author.id] ){
@@ -289,11 +309,10 @@ client.on("message", function(message) {
       }
     }
     else if(args[1].includes("%")){
-       var aa = args[1].substring(0,args[1].indexOf("%"));
-       var bb = Math.ceil(Number(gamblee[message.author.id])*aa/100);
-       gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(bb);
-        gamblee[args[0]]=  Number(gamblee[args[0]])+ Number(bb);
-        message.channel.send(  "You gave (ᗺ)"+bb+", "+client.users.cache.get(args[0]).username +" now has (ᗺ)"+gamblee[args[0]]);
+        var amm= getpercentage(args[1], message.author.id);
+        gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(amm);
+        gamblee[args[0]]=  Number(gamblee[args[0]])+ Number(amm);
+        message.channel.send(  "You gave (ᗺ)"+amm+", "+client.users.cache.get(args[0]).username +" now has (ᗺ)"+gamblee[args[0]]);
         message.reply("You now have (ᗺ)"+gamblee[message.author.id]);
     }else if(args[1].includes("all")){ 
         var xxyx=gamblee[message.author.id];
@@ -307,14 +326,7 @@ client.on("message", function(message) {
                   message.channel.send("arguments: !givebob userID amount");
 
     }
-            const jsonString = JSON.stringify(gamblee,null, 2);
-              fs.writeFile('./gamble.json', jsonString, err => {
-                   if (err) {
-                     console.log('Error writing file', err);
-                    } else {
-                  console.log('Successfully wrote file');
-                  }
-             });
+           writeFile();
   }
   else if (command ==="checkbank"){
     if(!args[0]){
@@ -335,36 +347,43 @@ client.on("message", function(message) {
     
   }
   else if (command ==="donatebob"){
-    if(!isNaN(args[0])){
+    if(!args[1]&&!isNaN(args[0])){
             if(args[0]<= gamblee[message.author.id] ){
                  gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(args[0]);
               message.reply("You donated (ᗺ)"+ args[0]+" to bobBank you now have " +gamblee[message.author.id]+"(ᗺ)");
             }else {
               message.reply("Can't donate more than what you have, gotta take care of yourself first. ");
             }
-    }else if (args[0]&&args[0].includes("all")){
+    }else if (!args[1]&&args[0]&&args[0].includes("all")){
               var cc =gamblee[message.author.id];
               gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(gamblee[message.author.id]);
               message.reply("You donated (ᗺ)"+ cc+" to bobBank you now have " +gamblee[message.author.id]+"(ᗺ)");
-    }else if (args[0]&&args[0].includes("%")){
-         var aa = args[0].substring(0,args[0].indexOf("%"));
-         var bb = Math.ceil(Number(gamblee[message.author.id])*aa/100);
-         gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(bb);
+    }else if (!args[1]&&args[0]&&args[0].includes("%")){
+         var amm = getpercentage(args[0], message.author.id);
+         gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(amm);
          message.reply("You donated (ᗺ)"+ args[0]+" to bobBank you now have " +gamblee[message.author.id]+"(ᗺ)");
+    } else if(args[1]){
+           if(args[0]<= gamblee[message.author.id] ){
+             var arrA=[];
+             var ie =0;
+                for(var prop in gamblee) {
+                 arrA[ie] = prop;
+                 ie++; 
+              }
+                  var rango=Math.floor(Math.random() *ie);
+                  gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(args[0]);
+                  gamblee[arrA[rango]]=   Number(gamblee[arrA[rango]])+ Number(args[0]);
+                 message.reply("You donated (ᗺ)"+ args[0]+" to "+client.users.cache.get(arrA[rango]).username+" you now have " +gamblee[message.author.id]+"(ᗺ)");
+            }else {
+              message.reply("Can't donate more than what you have, gotta take care of yourself first. ");
+            }
     }
     
     else{
-      message.channel.send("arguments: !donatebob amount");
-      message.channel.send("This is how you throw away the money to the bobBank");
+      message.channel.send("arguments: !donatebob amount random(optional)(literally random)");
+      message.channel.send("This is how you throw away the money to the bobBank or giveaway money to randos");
     }
-              const jsonString = JSON.stringify(gamblee,null, 2);
-              fs.writeFile('./gamble.json', jsonString, err => {
-                   if (err) {
-                     console.log('Error writing file', err);
-                    } else {
-                  console.log('Successfully wrote file');
-                  }
-             });
+         writeFile();
   }
   
   else if (command ==="richness"){
@@ -415,7 +434,7 @@ client.on("message", function(message) {
     if(yorank==0){
       message.reply("You have not made a bank yet, use !gamble to start!");
     }else 
-    message.reply("your rank is " + yorank +" out of " + arrA.length);
+    message.reply("your rank is " + yorank +" out of " + arrA.length +" with (ᗺ)"+gamblee[message.author.id]);
   }
   
   else if (command==="gamble"){
@@ -440,28 +459,15 @@ client.on("message", function(message) {
                 
                    var gv= Math.floor(Math.random() * (11 - 0) + 0);
                       if((gv <11) && (gv >5)){
-         
                            gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
-                    
                           message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
-                                                   
-
-
+                                                
                       } else{
-                        
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(args[0]);
-                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
-                                                 
-
-
-                      }
-                 
-                
+                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));                    
+                      }           
               }
 
-        
-  
-    
     /*     fs.readFile('./gamble.json', 'utf8', (err, jsonString) => {
                    if (err) {
                     console.log("File read failed:", err);
@@ -471,15 +477,15 @@ client.on("message", function(message) {
        
           });*/
            }else if( args[0] && args[0].includes("%")){
-                        var aa = args[0].substring(0,args[0].indexOf("%"));
-                       var bb = Math.ceil(Number(gamblee[message.author.id])*aa/100);
+                   
+                      var amm =getpercentage(args[0], message.author.id);
                        var gv= Math.floor(Math.random() * (11 - 0) + 0);
                            if((gv <11) && (gv >5)){
-                             gamblee[message.author.id]= Number(gamblee[message.author.id])+bb;
+                             gamblee[message.author.id]= Number(gamblee[message.author.id])+amm;
                              message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
                             
                       }else{
-                          gamblee[message.author.id]= Number(gamblee[message.author.id])-bb;
+                          gamblee[message.author.id]= Number(gamblee[message.author.id])-amm;
                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
                          
 
@@ -505,7 +511,7 @@ client.on("message", function(message) {
               
                else{
                  message.channel.send("arguments: !gamble <amount> or !gamble all");
-                 message.channel.send("To check how much money you have, use !checkbank, use !givebob to give somebody your bobcoins!, use !richness to view global ranking of bobcoins!");
+                 message.channel.send("To check how much money you have, use !checkbank, use !givebob to give somebody your bobcoins!, !donatebob to throw away money, use !richness to view global ranking of bobcoins!");
                  message.channel.send("You will get 500 bobcoins to start with! you will receive 10 bobcoins every 50 mins");
 
      }
@@ -518,14 +524,7 @@ client.on("message", function(message) {
          }
  
   
-         const jsonString = JSON.stringify(gamblee,null, 2);
-              fs.writeFile('./gamble.json', jsonString, err => {
-                   if (err) {
-                     console.log('Error writing file', err);
-                    } else {
-                  console.log('Successfully wrote file');
-                  }
-             });
+      writeFile();
          
   } else if (command==="senduser"){
             

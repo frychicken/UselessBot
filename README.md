@@ -1,5 +1,25 @@
 ## UselessBot
 
+Very nice gambling bot.
+
+### Gamble features
+
++ !gamble (amount || all || percentage) to gamble. ex: ``` !gamble 50%```
+
++ !checkbank userID (optional) to check your/other user balance. ex ``` !checkbank ```
+
++ !richness to check who is the richest and your rank. ex ``` !richness```
+
++ !givebob userID (amount || all || percentage) to give away bobcoins to a user. ex ``` !givebob 420696969420 all```
+
++ !donatebob (amount || all || percentage) random(optional) to donate money to a bank or to random user. ex ```!donatebob 100 420404040404```
+
+#### NOTES:
+
+amount: specific amount; all: all of what you have; percentage: give in percent 
+
+<hr>
+
 On the front-end,
 
 - Edit `views/index.html` to change the content of the webpage
