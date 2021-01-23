@@ -14,9 +14,13 @@ Very nice gambling bot.
 
 + !donatebob (amount || all || percentage) random(optional) to donate money to a bank or to random user. ex ```!donatebob 100 420404040404```
 
++ !stats userID (optional) to see your win to loss ratio. ex: ```!stats ```
+
 #### NOTES:
 
 amount: specific amount; all: all of what you have; percentage: give in percent 
+
+You can use bobcoins to buy roles on the server! (!buyroles)
 
 <hr>
 

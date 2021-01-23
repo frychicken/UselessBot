@@ -1,2 +1,4 @@
 *.txt
 gamble.json
+win.json
+loss.json
