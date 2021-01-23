@@ -4,6 +4,8 @@ const fs = require('fs');
 const express = require("express");
 const app = express();
 const gamblee = require("./gamble.json");
+const winY = require("./win.json");
+const lossY = require("./loss.json");
 const cron = require('node-cron');
 
 
@@ -20,6 +22,15 @@ const listener = app.listen(process.env.PORT, function() {
 
 app.get("/gamble.json", function (request, response) {
   response.sendFile(__dirname + '/gamble.json');
+});
+app.get("/win.json", function (request, response) {
+  response.sendFile(__dirname + '/win.json');
+});
+app.get("/loss.json", function (request, response) {
+  response.sendFile(__dirname + '/loss.json');
+});
+app.get("/api.html", function (request, response) {
+  response.sendFile(__dirname + '/api.html');
 });
 
 
@@ -46,6 +57,30 @@ cron.schedule('*/50 * * * *', () => {
 function writeFile(){
                 const jsonString = JSON.stringify(gamblee,null, 2);
               fs.writeFile('./gamble.json', jsonString, err => {
+                   if (err) {
+                     console.log('Error writing file', err);
+                    } else {
+                  console.log('Successfully wrote file');
+                  }
+             });
+}
+
+function winF(userID){
+  winY[userID] = Number(winY[userID])+1;
+            const jsonString = JSON.stringify(winY,null, 2);
+              fs.writeFile('./win.json', jsonString, err => {
+                   if (err) {
+                     console.log('Error writing file', err);
+                    } else {
+                  console.log('Successfully wrote file');
+                  }
+             });
+}
+
+function lossF(userID){
+    lossY[userID] = Number(lossY[userID])+1;
+              const jsonString = JSON.stringify(lossY,null, 2);
+              fs.writeFile('./loss.json', jsonString, err => {
                    if (err) {
                      console.log('Error writing file', err);
                     } else {
@@ -165,7 +200,7 @@ client.on("message", function(message) {
     };
   
     if((message.content.toLowerCase().includes("bob")||message.content.toLowerCase().includes("bop")||message.content.includes("366387372348407808"))&&!message.mentions.has(client.user.id)&&!(message.author.id === "366387372348407808")){
-                    message.channel.send("<@366387372348407808>"+" you are being mentioned, if bob does not reply, he could be in danger (chuckle). I have sent bob a DM.");
+              //      message.channel.send("<@366387372348407808>"+" you are being mentioned, if bob does not reply, he could be in danger (chuckle). I have sent bob a DM.");
                     client.users.cache.get('366387372348407808').send('Someone mentioned you')
     }
   
@@ -173,7 +208,7 @@ client.on("message", function(message) {
   if((message.content.toLowerCase().includes("game" &&"time")) || (message.content.toLowerCase().includes("among us" &&"time")) ){
     
     setTimeout(function(){ 
-    message.channel.send("Game time I heard? ping boobbbbb rn! In the meantime, if you feel bored, you can do !gamble or talk to me by mentioning me (@uselessBot)!");
+   // message.channel.send("Game time I heard? ping boobbbbb rn! In the meantime, if you feel bored, you can do !gamble or talk to me by mentioning me (@uselessBot)!");
     },2000);
        
   }
@@ -182,8 +217,8 @@ client.on("message", function(message) {
   if(nanim){
   if(message.content.includes("http" &&"gif" &&"tenor")){
     check=true;
-        message.reply(`We don't do that here, gif has been deleted. Send to #meme instead`)
-        console.log("delete20");
+        message.reply(`We don't do that here, gif has been deleted. Send to #meme instead`);
+      
   }
   if(check){
           message.delete();
@@ -196,7 +231,7 @@ client.on("message", function(message) {
   const command = args.shift().toLowerCase();
 
   if (command === "about") {
-    message.channel.send("pip pip I am just a very useless poorly-written bot, created obviuosly by bob (duh), written in node.js (sometimes in java). Use !website or !contribute to get the bot source code");
+    message.channel.send("pip pip I am just a very useless poorly-written bot, created obviuosly by bob (duh), sometimes in node.js (sometimes in java). Use !website or !contribute to get the bot source code");
   }
   else if (command === "bob") {
     message.channel.send(`there is no reason to do this but here is a sneakpeek of the coming future of this bot`);
@@ -217,11 +252,11 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness, !stats, !buyroles`);
   }
 
   else if (command === "contribute") {
-    message.channel.send(`I am not a perfect bot, very poorly written, contribute to the development of the bot here https://github.com/frychicken/DummyDiscordBot`);
+    message.channel.send(`I am not a perfect bot, very poorly written, contribute to the development of the bot here https://github.com/frychicken/UselessBot`);
   }
   
   else if(command ==="send"){
@@ -293,12 +328,15 @@ client.on("message", function(message) {
 
   }
   else if (command==="fix"){
-   
+
     
-    writeFile();
+    
   }
   else if (command==="givebob"){
-    if(!isNaN(args[1]) && args[0]&&args[1]){
+    
+    if (!gamblee.hasOwnProperty(args[0])){
+      message.channel.send("User not exist");
+    } else if(!isNaN(args[1]) && args[0]&&args[1]){
       if(args[1]<= gamblee[message.author.id] ){
       gamblee[message.author.id]= Number(gamblee[message.author.id])- Number(args[1]);
       gamblee[args[0]]=  Number(gamblee[args[0]])+ Number(args[1]);
@@ -344,6 +382,22 @@ client.on("message", function(message) {
     else {
       message.channel.send("typo? could not find that user. ");
     }
+    
+  }
+  
+  else if(command ==="stats"){
+    if(!args[0]){
+    message.reply("Your stats is: " + winY[message.author.id] +" win(s) and "+ lossY[message.author.id] +" loss(es)");
+      message.channel.send("You can check other people stats by using !stats userID");
+    }
+    else if (winY.hasOwnProperty(args[0])){
+      message.channel.send(client.users.cache.get(args[0]).username + "'s stats is: " + winY[args[0]] + " win(s) and "+lossY[args[0]] +" loss(es)");
+    }else{
+      message.channel.send("player does not exist");
+    }
+  }
+  
+  else if (command ==="buyroles"){
     
   }
   else if (command ==="donatebob"){
@@ -449,7 +503,7 @@ client.on("message", function(message) {
     */
 
      if(gamblee.hasOwnProperty(message.author.id)){
-          if((!isNaN(args[0]))){
+          if((!isNaN(args[0])) ){
          
         
               if(Number(args[0]) > Number(gamblee[message.author.id])){
@@ -460,11 +514,13 @@ client.on("message", function(message) {
                    var gv= Math.floor(Math.random() * (11 - 0) + 0);
                       if((gv <11) && (gv >5)){
                            gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
-                          message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
+                           message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
+                           winF(message.author.id);
                                                 
                       } else{
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(args[0]);
-                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));                    
+                          message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));     
+                          lossF(message.author.id);
                       }           
               }
 
@@ -483,11 +539,12 @@ client.on("message", function(message) {
                            if((gv <11) && (gv >5)){
                              gamblee[message.author.id]= Number(gamblee[message.author.id])+amm;
                              message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
+                             winF(message.author.id);
                             
                       }else{
                           gamblee[message.author.id]= Number(gamblee[message.author.id])-amm;
                           message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
-                         
+                          lossF(message.author.id);
 
 
                       }
@@ -499,13 +556,13 @@ client.on("message", function(message) {
                           gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
                  
                           message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
-
+                           winF(message.author.id);
 
 
                       } else{
                            gamblee[message.author.id]= Number(gamblee[message.author.id])-Number(gamblee[message.author.id]);
                            message.reply("You lose lol LLLL! now you have " +gamblee[message.author.id]+" bobcoin(ᗺ), your rank is: "+yoraank(message.author.id));
-
+                           lossF(message.author.id);
                       }
             }
               
@@ -519,6 +576,8 @@ client.on("message", function(message) {
        
      }else{
            gamblee[message.author.id] = 500;
+           winY[message.author.id] =0;
+           lossY[message.author.id] =0;
            message.reply("bank account created, now you can gamble by doing !gamble <amount>! You currently have 500 (ᗺ)");
 
          }

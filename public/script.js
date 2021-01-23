@@ -215,7 +215,7 @@ $("#smooth a[href^='#']").on('click', function(e) {
     });
 
   $('.button1').on('click', function() {
-              window.open("https://github.com/frychicken/DummyDiscordBot");
+              window.open("https://github.com/frychicken/UselessBot");
 
 
     });
