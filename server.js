@@ -252,7 +252,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness, !stats, !buyroles`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness, !stats, !buyroles, !sellroles`);
   }
 
   else if (command === "contribute") {
@@ -398,7 +398,67 @@ client.on("message", function(message) {
   }
   
   else if (command ==="buyroles"){
+    var bct="";
+     for(var i=0; i<args.length;i++){
+      bct= bct+ args[i] +" ";
+     }
+    bct = bct.trim();
     
+    let role = message.member.guild.roles.cache.find(role => role.name === bct);
+    
+   if(!message.member.roles.cache.has(role.id)){
+    if (role) {
+      message.guild.members.cache.get(message.author.id).roles.add(role);
+      
+        setTimeout(function(){ 
+       if(message.member.roles.cache.has(role.id)){
+         gamblee[message.author.id] = gamblee[message.author.id]-1000;
+         message.reply("bought "+bct + " for 1000 coins, you now have " +gamblee[message.author.id] +" bobcoins");
+       }else{
+         message.reply("Don't have permission to do that!");
+       }
+      },2000);
+      
+      
+    }
+    else{
+      message.reply("Role does not exist");
+      message.channel.send("Do !buyroles rolename");
+    }
+    writeFile();
+   }else{
+     message.reply("You already bought the role");
+   }
+  } 
+  else if (command ==="sellroles"){
+      var bct="";
+     for(var i=0; i<args.length;i++){
+      bct= bct+ args[i] +" ";
+     }
+    bct = bct.trim();
+      let role = message.member.guild.roles.cache.find(role => role.name === bct);
+    if(message.member.roles.cache.has(role.id)){
+    if (role) {
+      message.guild.members.cache.get(message.author.id).roles.remove(role);
+      
+      setTimeout(function(){ 
+      if(!message.member.roles.cache.has(role.id)){
+      gamblee[message.author.id] = gamblee[message.author.id]+800;
+      message.reply("sold "+ bct + " for 800 coins, you now have " +gamblee[message.author.id] +" bobcoins");
+       }else{
+         message.reply("Error while selling roles");   
+       }
+      },1000);
+      
+    }
+    else{
+    message.reply("Role does not exist");
+    message.channel.send("Do !sellroles rolename");
+    }
+    writeFile();
+    }else {
+      message.reply("you dont have that role to sell");
+    }
   }
   else if (command ==="donatebob"){
     if(!args[1]&&!isNaN(args[0])){
