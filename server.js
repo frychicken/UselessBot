@@ -412,8 +412,12 @@ client.on("message", function(message) {
       
         setTimeout(function(){ 
        if(message.member.roles.cache.has(role.id)){
+         if(Number(gamblee[message.author.id]) >= 1000){
          gamblee[message.author.id] = gamblee[message.author.id]-1000;
          message.reply("bought "+bct + " for 1000 coins, you now have " +gamblee[message.author.id] +" bobcoins");
+         } else {
+           message.reply("You dont have enough mnoney")
+         }
        }else{
          message.reply("Don't have permission to do that!");
        }

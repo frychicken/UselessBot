@@ -20,7 +20,7 @@ Very nice gambling bot.
 
 amount: specific amount; all: all of what you have; percentage: give in percent 
 
-You can use bobcoins to buy roles on the server! (!buyroles)
+You can use bobcoins to buy/sell roles on the server! (!buyroles or !sellroles)
 
 <hr>
 
