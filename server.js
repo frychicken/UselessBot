@@ -169,7 +169,7 @@ client.on("message", function(message) {
         
         setTimeout(function(){  if(!haverespond){
             message.channel.send("Nobody teaches me dat, so I dont understand the meaning. plz teach me senpai");
-           message.channel.send("You can teach me stuff. Type in: @uselessBot *statement:respond");
+           message.channel.send("You can teach me stuff. Type in: @UselessBot *statement:respond");
         }}, 1000);
 
        
@@ -252,7 +252,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "help") {
-    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness, !stats, !buyroles, !sellroles`);
+    message.channel.send(`usage: !off, !on, !about, !help, !website, !bob, !contribute, @<mention me>, !gamble, !givebob, !donatebob, !checkbank, !disguise, !send, !senduser, !getavatar, !setavatar, !richness, !stats, !buyroles, !sellroles, !remindme`);
   }
 
   else if (command === "contribute") {
@@ -414,7 +414,7 @@ client.on("message", function(message) {
        if(message.member.roles.cache.has(role.id)){
          if(Number(gamblee[message.author.id]) >= 1000){
          gamblee[message.author.id] = gamblee[message.author.id]-1000;
-         message.reply("bought "+bct + " for 1000 coins, you now have " +gamblee[message.author.id] +" bobcoins");
+         message.reply("bought "+bct + " role for 1000 coins, you now have " +gamblee[message.author.id] +" bobcoins");
          } else {
            message.reply("You dont have enough mnoney")
          }
@@ -448,7 +448,7 @@ client.on("message", function(message) {
       setTimeout(function(){ 
       if(!message.member.roles.cache.has(role.id)){
       gamblee[message.author.id] = gamblee[message.author.id]+800;
-      message.reply("sold "+ bct + " for 800 coins, you now have " +gamblee[message.author.id] +" bobcoins");
+      message.reply("sold "+ bct + " role for 800 coins, you now have " +gamblee[message.author.id] +" bobcoins");
        }else{
          message.reply("Error while selling roles");   
        }
@@ -575,8 +575,8 @@ client.on("message", function(message) {
 
               }else{
                 
-                   var gv= Math.floor(Math.random() * (11 - 0) + 0);
-                      if((gv <11) && (gv >5)){
+                   var gv=  Math.floor(Math.random() * Math.floor(2));
+                      if(gv==1){
                            gamblee[message.author.id]= Number(args[0])+ Number(gamblee[message.author.id]);
                            message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
                            winF(message.author.id);
@@ -599,8 +599,8 @@ client.on("message", function(message) {
            }else if( args[0] && args[0].includes("%")){
                    
                       var amm =getpercentage(args[0], message.author.id);
-                       var gv= Math.floor(Math.random() * (11 - 0) + 0);
-                           if((gv <11) && (gv >5)){
+                       var gv= Math.floor(Math.random() * Math.floor(2));
+                           if(gv==1){
                              gamblee[message.author.id]= Number(gamblee[message.author.id])+amm;
                              message.reply("You win! now you have " +gamblee[message.author.id]+" bobcoin (ᗺ), your rank is: "+yoraank(message.author.id));
                              winF(message.author.id);
@@ -614,8 +614,8 @@ client.on("message", function(message) {
                       }
       
             } else if(args[0] && args[0].includes("all")){
-                     var gv= Math.floor(Math.random() * (11 - 0) + 0);
-                      if((gv <11) && (gv >5)){
+                     var gv= Math.floor(Math.random() * Math.floor(2));
+                      if(gv==1){
     
                           gamblee[message.author.id]= Number(gamblee[message.author.id])+ Number(gamblee[message.author.id]); 
                  
@@ -652,7 +652,7 @@ client.on("message", function(message) {
   } else if (command==="senduser"){
             
         if(!args[0] ||!args[1]){
-          message.channel.send("arguments: !send userID message");
+          message.channel.send("arguments: !senduser userID message");
                 message.channel.send("tell bot to say what ever you desire to a user! the bot gotta have a mutual server with that user!");
 
 
@@ -665,8 +665,26 @@ client.on("message", function(message) {
 
     message.channel.send("sent");
     }
+  }
+  else if (command ==="remindme") {
     
-
+    if(!isNaN(args[0]) && args[1]){
+     var bct="";
+     for(var i=1; i<args.length;i++){
+      bct= bct+ args[i] +" ";
+     }
+    
+    var time = Number(args[0])*1000;
+    
+     setTimeout(function(){  
+     client.users.cache.get(message.author.id).send("You set a reminder for <"+bct+"> we remind you that your time is out");
+     },time);
+    
+    message.reply("reminder set for "+ bct +" for "+ args[0]+" second(s)");
+    }else{
+      message.channel.send("arguments: !remindme seconds reason");
+    }
+    
   }
   
   else if (command ==="leaveplz"){
