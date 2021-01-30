@@ -7,7 +7,7 @@ const gamblee = require("./gamble.json");
 const winY = require("./win.json");
 const lossY = require("./loss.json");
 const cron = require('node-cron');
-
+var locc = "./gamble.json";
 
 
 app.get("/", function(request, response) {
@@ -47,16 +47,16 @@ cron.schedule('*/50 * * * *', () => {
     for(var prop in gamblee) {
       gamblee[prop] = Number(gamblee[prop])+10;
       console.log("add 10 bobcoin");
-     writeFile();
+      writeFile(gamblee, locc);
    }
   
   
 });
 
 
-function writeFile(){
-                const jsonString = JSON.stringify(gamblee,null, 2);
-              fs.writeFile('./gamble.json', jsonString, err => {
+function writeFile(consV, loc){
+                const jsonString = JSON.stringify(consV,null, 2);
+              fs.writeFile(loc, jsonString, err => {
                    if (err) {
                      console.log('Error writing file', err);
                     } else {
@@ -67,26 +67,13 @@ function writeFile(){
 
 function winF(userID){
   winY[userID] = Number(winY[userID])+1;
-            const jsonString = JSON.stringify(winY,null, 2);
-              fs.writeFile('./win.json', jsonString, err => {
-                   if (err) {
-                     console.log('Error writing file', err);
-                    } else {
-                  console.log('Successfully wrote file');
-                  }
-             });
+  writeFile(winY, "./win.json")
+      
 }
 
 function lossF(userID){
     lossY[userID] = Number(lossY[userID])+1;
-              const jsonString = JSON.stringify(lossY,null, 2);
-              fs.writeFile('./loss.json', jsonString, err => {
-                   if (err) {
-                     console.log('Error writing file', err);
-                    } else {
-                  console.log('Successfully wrote file');
-                  }
-             });
+    writeFile(lossY, "./loss.json");
 }
 
 function getpercentage(stringggg, arthurID){
@@ -229,7 +216,7 @@ client.on("message", function(message) {
   const commandBody = message.content.slice(prefix.length);
   const args = commandBody.split(' ');
   const command = args.shift().toLowerCase();
-
+  
   if (command === "about") {
     message.channel.send("pip pip I am just a very useless poorly-written bot, created obviuosly by bob (duh), sometimes in node.js (sometimes in java). Use !website or !contribute to get the bot source code");
   }
@@ -285,7 +272,6 @@ client.on("message", function(message) {
     } else {
         message.reply(client.users.cache.get(args[0]).displayAvatarURL());
     }
-
 
   }
   else if (command === "setavatar"){ 
@@ -364,7 +350,8 @@ client.on("message", function(message) {
                   message.channel.send("arguments: !givebob userID amount");
 
     }
-           writeFile();
+ 
+           writeFile(gamblee, locc);
   }
   else if (command ==="checkbank"){
     if(!args[0]){
@@ -387,11 +374,13 @@ client.on("message", function(message) {
   
   else if(command ==="stats"){
     if(!args[0]){
-    message.reply("Your stats is: " + winY[message.author.id] +" win(s) and "+ lossY[message.author.id] +" loss(es)");
+    message.reply("Your stats is: " + winY[message.author.id] +" win(s) and "+ lossY[message.author.id] +" loss(es); your win/loss ratio is "+  (Number(winY[message.author.id] )/Number(lossY[message.author.id])).toFixed(2));
       message.channel.send("You can check other people stats by using !stats userID");
     }
     else if (winY.hasOwnProperty(args[0])){
-      message.channel.send(client.users.cache.get(args[0]).username + "'s stats is: " + winY[args[0]] + " win(s) and "+lossY[args[0]] +" loss(es)");
+      message.channel.send(client.users.cache.get(args[0]).username + "'s stats is: " + winY[args[0]] + " win(s) and "+lossY[args[0]] +" loss(es) "+client.users.cache.get(args[0]).username +" win/loss ratio is "+ (Number(winY[args[0]])/Number(lossY[args[0]])).toFixed(2));
+      message.channel.send("You can check yout stats by using !stats");
+
     }else{
       message.channel.send("player does not exist");
     }
@@ -429,7 +418,7 @@ client.on("message", function(message) {
       message.reply("Role does not exist");
       message.channel.send("Do !buyroles rolename");
     }
-    writeFile();
+    writeFile(gamblee, locc);
    }else{
      message.reply("You already bought the role");
    }
@@ -459,7 +448,7 @@ client.on("message", function(message) {
     message.reply("Role does not exist");
     message.channel.send("Do !sellroles rolename");
     }
-    writeFile();
+    writeFile(gamblee, locc);
     }else {
       message.reply("you dont have that role to sell");
     }
@@ -501,7 +490,7 @@ client.on("message", function(message) {
       message.channel.send("arguments: !donatebob amount random(optional)(literally random)");
       message.channel.send("This is how you throw away the money to the bobBank or giveaway money to randos");
     }
-         writeFile();
+         writeFile(gamblee, locc);
   }
   
   else if (command ==="richness"){
@@ -556,15 +545,6 @@ client.on("message", function(message) {
   }
   
   else if (command==="gamble"){
-  
-    
-    /*
-              const gambleee = {
-                 user: message.author.id,
-                 amount: args[0]
-             }
-    
-    */
 
      if(gamblee.hasOwnProperty(message.author.id)){
           if((!isNaN(args[0])) ){
@@ -588,14 +568,6 @@ client.on("message", function(message) {
                       }           
               }
 
-    /*     fs.readFile('./gamble.json', 'utf8', (err, jsonString) => {
-                   if (err) {
-                    console.log("File read failed:", err);
-                  return;
-           }
-             console.log('File data:', jsonString); 
-       
-          });*/
            }else if( args[0] && args[0].includes("%")){
                    
                       var amm =getpercentage(args[0], message.author.id);
@@ -647,7 +619,7 @@ client.on("message", function(message) {
          }
  
   
-      writeFile();
+      writeFile(gamblee, locc);
          
   } else if (command==="senduser"){
             
@@ -666,6 +638,7 @@ client.on("message", function(message) {
     message.channel.send("sent");
     }
   }
+  
   else if (command ==="remindme") {
     
     if(!isNaN(args[0]) && args[1]){
