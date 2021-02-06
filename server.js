@@ -188,7 +188,7 @@ client.on("message", function(message) {
   
     if((message.content.toLowerCase().includes("bob")||message.content.toLowerCase().includes("bop")||message.content.includes("366387372348407808"))&&!message.mentions.has(client.user.id)&&!(message.author.id === "366387372348407808")){
               //      message.channel.send("<@366387372348407808>"+" you are being mentioned, if bob does not reply, he could be in danger (chuckle). I have sent bob a DM.");
-                    client.users.cache.get('366387372348407808').send('Someone mentioned you')
+                    client.users.cache.get('366387372348407808').send(message.author.username+message.author.discriminator+' mentioned you on '+message.guild.name+" about "+message.content)
     }
   
   
@@ -374,11 +374,11 @@ client.on("message", function(message) {
   
   else if(command ==="stats"){
     if(!args[0]){
-    message.reply("Your stats is: " + winY[message.author.id] +" win(s) and "+ lossY[message.author.id] +" loss(es); your win/loss ratio is "+  (Number(winY[message.author.id] )/Number(lossY[message.author.id])).toFixed(2));
+    message.reply("Your stats is: " + winY[message.author.id] +" win(s) and "+ lossY[message.author.id] +" loss(es); your win/loss ratio is "+  (Number(winY[message.author.id] )/Number(lossY[message.author.id])).toFixed(2) +" your win percentage is: "+((Number(winY[message.author.id] )/((Number(lossY[message.author.id]))+Number(winY[message.author.id] ))).toFixed(2))*100 +"%" );
       message.channel.send("You can check other people stats by using !stats userID");
     }
     else if (winY.hasOwnProperty(args[0])){
-      message.channel.send(client.users.cache.get(args[0]).username + "'s stats is: " + winY[args[0]] + " win(s) and "+lossY[args[0]] +" loss(es) "+client.users.cache.get(args[0]).username +" win/loss ratio is "+ (Number(winY[args[0]])/Number(lossY[args[0]])).toFixed(2));
+      message.channel.send(client.users.cache.get(args[0]).username + "'s stats is: " + winY[args[0]] + " win(s) and "+lossY[args[0]] +" loss(es) "+client.users.cache.get(args[0]).username +" win/loss ratio is "+ (Number(winY[args[0]])/Number(lossY[args[0]])).toFixed(2)+", win percentage is " +((Number(winY[args[0]])/((Number(lossY[args[0]]))+Number(winY[args[0]]))).toFixed(2))*100+"%" );
       message.channel.send("You can check yout stats by using !stats");
 
     }else{
