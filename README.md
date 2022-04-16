@@ -12,7 +12,7 @@ Very nice gambling bot.
 
 + !givebob userID (amount || all || percentage) to give away bobcoins to a user. ex ``` !givebob 420696969420 all```
 
-+ !donatebob (amount || all || percentage) random(optional) to donate money to a bank or to random user. ex ```!donatebob 100 420404040404```
++ !donatebob (amount || all || percentage) random(optional) to donate money to a bank or to random user. ex ```!donatebob 100 random```
 
 + !stats userID (optional) to see your win to loss ratio. ex: ```!stats ```
 
