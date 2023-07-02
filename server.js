@@ -155,7 +155,7 @@ client.on("message", function(message) {
     });
         
         setTimeout(function(){  if(!haverespond){
-            message.channel.send("Nobody teaches me dat, so I dont understand the meaning. plz teach me senpai");
+            message.channel.send("Nobody teaches me dat, so I dont understand the meaning. plz teach me");
            message.channel.send("You can teach me stuff. Type in: @UselessBot *statement:respond");
         }}, 1000);
 
@@ -243,7 +243,7 @@ client.on("message", function(message) {
   }
 
   else if (command === "contribute") {
-    message.channel.send(`I am not a perfect bot, very poorly written, contribute to the development of the bot here https://github.com/frychicken/UselessBot`);
+    message.channel.send(`I am not a perfect bot, contribute to the development of the bot here  https://github.com/frychicken/UselessBotSource/tree/master/UselessBot-main`);
   }
   
   else if(command ==="send"){
@@ -535,9 +535,9 @@ client.on("message", function(message) {
         thirdr=prop;
       }
     }
-    message.channel.send(client.users.cache.get(richest).username +"#"+client.users.cache.get(richest).discriminator +" owns the most bobcoins (ᗺ) with " +max+" (ᗺ) boi rich af");
+    message.channel.send(client.users.cache.get(richest).username +"#"+client.users.cache.get(richest).discriminator +" owns the most bobcoins (ᗺ) with " +max+" (ᗺ) ");
     message.channel.send("followed by "+client.users.cache.get(secondr).username+" with " + arrA[1] +"(ᗺ) and "+client.users.cache.get(thirdr).username +" "+ arrA[2] +"(ᗺ) for the second and third richest");
-    message.channel.send(client.users.cache.get(min).username +" is the poorest has "+ arrA[arrA.length-1] +"(ᗺ), unlucky chad!");
+    message.channel.send(client.users.cache.get(min).username +" is the poorest has "+ arrA[arrA.length-1] +"(ᗺ), unlucky!");
     if(yorank==0){
       message.reply("You have not made a bank yet, use !gamble to start!");
     }else 
@@ -551,7 +551,7 @@ client.on("message", function(message) {
          
         
               if(Number(args[0]) > Number(gamblee[message.author.id])){
-                            message.reply("can't gamble more than what you have you dumb fooks");
+                            message.reply("can't gamble more than what you have");
 
               }else{
                 
