@@ -279,7 +279,7 @@ client.on("message", function(message) {
     if(args[0]){
       if(args[0].includes("reset")){
         message.guild.members.cache.get("593901496492490768").setNickname(null);
-          client.user.setAvatar("https://cdn.glitch.com/6a85e2a7-6527-46d0-91ee-7fa4ccf08cc1%2Fme.PNG?v=1610295218994")
+          client.user.setAvatar("https://cdn.glitch.global/6a85e2a7-6527-46d0-91ee-7fa4ccf08cc1/newlogo2bro.png?v=1689648668595")
            .then(user => console.log(`New avatar set!`))
            .catch(console.error);
       } else{
